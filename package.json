@@ -1,0 +1,18 @@
+{
+  "name": "propheta-nodejs",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "sse": "0.0.5",
+    "twit": "^1.1.18"
+  },
+  "devDependencies": {
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-develop": "^0.4.0",
+    "load-grunt-tasks": "^0.6.0",
+    "time-grunt": "^0.4.0"
+  }
+}

@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+var debug = require('debug')('expressapp');
+var app = require('../app');
+var SSE = require('sse');
+var Twit = require('twit');
+
+
+var consumer_key =         process.env['TWITTER_CONSUMER_KEY'];
+var consumer_secret =      process.env['TWITTER_CONSUMER_SECRET'];
+var access_token =         process.env['TWITTER_OAUTH_TOKEN'];
+var access_token_secret =  process.env['TWITTER_OAUTH_TOKEN_SECRET'];
+var T = new Twit({
+	consumer_key: consumer_key,
+	consumer_secret: consumer_secret,
+	access_token: access_token,
+	access_token_secret: access_token_secret
+});
+
+
+
+app.set('port', process.env.PORT || 3000);
+
+var server = app.listen(app.get('port'), function() {
+  debug('Express server listening on port ' + server.address().port);
+  
+  var sse = new SSE(server);
+  sse.on('connection', function(client) {
+  	var streamPath = 'statuses/sample';
+		var stream = T.stream(streamPath)
+
+		stream.on('tweet', function (tweet) {
+	  	client.send( JSON.stringify(tweet) );
+		});
+  });
+});
